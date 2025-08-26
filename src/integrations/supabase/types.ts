@@ -14,7 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      pagos: {
+        Row: {
+          created_at: string | null
+          fecha: string
+          id: string
+          monto: number
+          referencia: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          fecha: string
+          id?: string
+          monto: number
+          referencia: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          fecha?: string
+          id?: string
+          monto?: number
+          referencia?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      ventas: {
+        Row: {
+          comisiones: number
+          created_at: string | null
+          devoluciones: number
+          fecha: string
+          id: string
+          iva: number
+          monto_bruto: number
+          monto_neto: number
+          order_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          comisiones?: number
+          created_at?: string | null
+          devoluciones?: number
+          fecha: string
+          id?: string
+          iva?: number
+          monto_bruto: number
+          monto_neto: number
+          order_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          comisiones?: number
+          created_at?: string | null
+          devoluciones?: number
+          fecha?: string
+          id?: string
+          iva?: number
+          monto_bruto?: number
+          monto_neto?: number
+          order_id?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
