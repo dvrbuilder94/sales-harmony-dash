@@ -1,10 +1,18 @@
 import { useDashboardData } from '@/hooks/useDashboardData';
+import { useAuth } from '@/hooks/useAuth';
 import { VentasTable } from '@/components/VentasTable';
 import { KPICharts } from '@/components/KPICharts';
 import { ConciliationButton } from '@/components/ConciliationButton';
+import { Button } from '@/components/ui/button';
+import { LogOut, User } from 'lucide-react';
 
 const Index = () => {
   const { ventas, kpis, loading, error, refetch } = useDashboardData();
+  const { user, signOut } = useAuth();
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
   if (error) {
     return (
@@ -24,6 +32,16 @@ const Index = () => {
           <div>
             <h1 className="text-3xl font-bold">Dashboard de Ventas</h1>
             <p className="text-muted-foreground">Panel de control para ventas y conciliación</p>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <User className="h-4 w-4" />
+              {user?.email}
+            </div>
+            <Button onClick={handleSignOut} variant="outline" size="sm">
+              <LogOut className="h-4 w-4 mr-2" />
+              Cerrar Sesión
+            </Button>
           </div>
         </div>
 
