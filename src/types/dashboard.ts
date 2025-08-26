@@ -22,6 +22,7 @@ export interface Pago {
 
 export interface KPIData {
   ventasNetas: number;
+  comisionesTotales: number;
   discrepancias: number;
   totalPagos: number;
   ventasPendientes: number;

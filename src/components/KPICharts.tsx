@@ -36,18 +36,20 @@ export const KPICharts = ({ kpis, loading }: KPIChartsProps) => {
   };
 
   const barData = {
-    labels: ['Ventas Netas', 'Total Pagos', 'Discrepancias'],
+    labels: ['Ventas Netas', 'Comisiones', 'Total Pagos', 'Discrepancias'],
     datasets: [
       {
         label: 'Montos (€)',
-        data: [kpis.ventasNetas, kpis.totalPagos, kpis.discrepancias],
+        data: [kpis.ventasNetas, kpis.comisionesTotales, kpis.totalPagos, kpis.discrepancias],
         backgroundColor: [
           'hsl(var(--primary))',
+          'hsl(var(--accent))',
           'hsl(var(--secondary))',
           'hsl(var(--destructive))',
         ],
         borderColor: [
           'hsl(var(--primary))',
+          'hsl(var(--accent))',
           'hsl(var(--secondary))',
           'hsl(var(--destructive))',
         ],
@@ -102,8 +104,8 @@ export const KPICharts = ({ kpis, loading }: KPIChartsProps) => {
 
   if (loading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        {[...Array(4)].map((_, i) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+        {[...Array(5)].map((_, i) => (
           <Card key={i}>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium">Cargando...</CardTitle>
@@ -120,7 +122,7 @@ export const KPICharts = ({ kpis, loading }: KPIChartsProps) => {
   return (
     <div className="space-y-6">
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium">Ventas Netas</CardTitle>
@@ -128,6 +130,17 @@ export const KPICharts = ({ kpis, loading }: KPIChartsProps) => {
           <CardContent>
             <div className="text-2xl font-bold text-primary">
               {formatCurrency(kpis.ventasNetas)}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium">Comisiones Totales</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-accent-foreground">
+              {formatCurrency(kpis.comisionesTotales)}
             </div>
           </CardContent>
         </Card>
