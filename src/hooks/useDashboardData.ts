@@ -17,6 +17,7 @@ export const useDashboardData = () => {
 
   const fetchData = async () => {
     try {
+      console.log('🔄 fetchData iniciado');
       setLoading(true);
       
       // Fetch ventas
@@ -26,6 +27,7 @@ export const useDashboardData = () => {
         .order('fecha', { ascending: false });
 
       if (ventasError) throw ventasError;
+      console.log('✅ Ventas cargadas:', ventasData?.length);
 
       // Fetch pagos
       const { data: pagosData, error: pagosError } = await supabase
@@ -34,6 +36,7 @@ export const useDashboardData = () => {
         .order('fecha', { ascending: false });
 
       if (pagosError) throw pagosError;
+      console.log('✅ Pagos cargados:', pagosData?.length);
 
       setVentas(ventasData || []);
       setPagos(pagosData || []);
@@ -52,8 +55,11 @@ export const useDashboardData = () => {
         totalPagos,
         ventasPendientes
       });
+      
+      console.log('📊 KPIs calculados:', { ventasNetas, comisionesTotales, totalPagos, discrepancias });
 
     } catch (err) {
+      console.error('❌ Error en fetchData:', err);
       setError(err instanceof Error ? err.message : 'Error desconocido');
     } finally {
       setLoading(false);
@@ -61,6 +67,7 @@ export const useDashboardData = () => {
   };
 
   useEffect(() => {
+    console.log('🚀 useDashboardData iniciado');
     fetchData();
 
     // Set up real-time subscriptions
