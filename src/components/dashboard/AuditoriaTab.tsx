@@ -92,10 +92,13 @@ export function AuditoriaTab() {
               Generar Reporte
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent aria-describedby="audit-report-description">
             <DialogHeader>
               <DialogTitle>Generar Reporte de Auditoría</DialogTitle>
             </DialogHeader>
+            <div id="audit-report-description" className="sr-only">
+              Formulario para generar y descargar reportes de auditoría del sistema
+            </div>
             <div className="space-y-4">
               <p className="text-sm text-muted-foreground">
                 Selecciona el formato para el reporte de auditoría:

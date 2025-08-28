@@ -205,10 +205,13 @@ const Auth = () => {
                   {loadingDemo ? 'Cargando...' : 'Probar Demo'}
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-4xl">
+              <DialogContent className="max-w-4xl" aria-describedby="demo-description">
                 <DialogHeader>
                   <DialogTitle>Demostración del Dashboard</DialogTitle>
                 </DialogHeader>
+                <div id="demo-description" className="sr-only">
+                  Demostración interactiva de las funcionalidades del dashboard con datos de ejemplo
+                </div>
                 {demoData && (
                   <div className="space-y-6">
                     {/* Demo KPIs */}

@@ -158,10 +158,13 @@ export function ReportesTab() {
                   Ver Detalles ({discrepancias.length} registros)
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-4xl max-h-[80vh] overflow-auto">
+              <DialogContent className="max-w-4xl max-h-[80vh] overflow-auto" aria-describedby="discrepancy-description">
                 <DialogHeader>
                   <DialogTitle>Detalles de Discrepancias</DialogTitle>
                 </DialogHeader>
+                <div id="discrepancy-description" className="sr-only">
+                  Lista detallada de todas las discrepancias encontradas en las ventas
+                </div>
                 <Table>
                   <TableHeader>
                     <TableRow>

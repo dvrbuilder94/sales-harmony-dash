@@ -60,6 +60,13 @@ class ApiClient {
       return this.token;
     } catch (error) {
       console.error('❌ Error obteniendo token:', error);
+      // Show user notification
+      const { toast } = await import('@/hooks/use-toast');
+      toast({
+        title: "Error de Conexión",
+        description: "Backend no disponible. No se pudo obtener el token de autenticación.",
+        variant: "destructive",
+      });
       throw error;
     }
   }
@@ -82,20 +89,39 @@ class ApiClient {
       return data.data as T;
     } catch (error) {
       console.error('❌ Error en petición:', url, error);
+      // Show user notification for network errors
+      const { toast } = await import('@/hooks/use-toast');
+      toast({
+        title: "Error de Red",
+        description: "Backend no disponible. Verifique su conexión a internet.",
+        variant: "destructive",
+      });
       throw error;
     }
   }
 
   private async authenticatedRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-    const token = await this.getToken();
-    
-    return this.request<T>(endpoint, {
-      ...options,
-      headers: {
-        ...options.headers,
-        'Authorization': `Bearer ${token}`,
-      },
-    });
+    try {
+      const token = await this.getToken();
+      
+      return this.request<T>(endpoint, {
+        ...options,
+        headers: {
+          ...options.headers,
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+    } catch (error) {
+      console.error('❌ Error en petición autenticada:', endpoint, error);
+      // Show user notification for auth errors
+      const { toast } = await import('@/hooks/use-toast');
+      toast({
+        title: "Error de Autenticación",
+        description: "Backend no disponible. No se pudo autenticar la solicitud.",
+        variant: "destructive",
+      });
+      throw error;
+    }
   }
 
   // Health check
@@ -115,7 +141,18 @@ class ApiClient {
     ventas: any[];
     pagos: any[];
   }> {
-    return this.request('/api/dashboard');
+    try {
+      return this.request('/api/dashboard');
+    } catch (error) {
+      console.error('❌ Error obteniendo datos del dashboard:', error);
+      const { toast } = await import('@/hooks/use-toast');
+      toast({
+        title: "Error al Cargar Dashboard",
+        description: "Backend no disponible. No se pudieron cargar los datos del dashboard.",
+        variant: "destructive",
+      });
+      throw error;
+    }
   }
 
   // Ventas
@@ -141,7 +178,18 @@ class ApiClient {
     name: string;
     realtime?: boolean;
   }>> {
-    return this.authenticatedRequest('/get-channels');
+    try {
+      return this.authenticatedRequest('/get-channels');
+    } catch (error) {
+      console.error('❌ Error obteniendo canales:', error);
+      const { toast } = await import('@/hooks/use-toast');
+      toast({
+        title: "Error al Cargar Canales",
+        description: "Backend no disponible. No se pudieron cargar los canales.",
+        variant: "destructive",
+      });
+      throw error;
+    }
   }
 
   // Upload CSV (requires JWT)
