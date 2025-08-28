@@ -212,6 +212,17 @@ class ApiClient {
     }
   }
 
+  // Conciliación Dashboard
+  async getConciliacionDashboard(): Promise<any> {
+    try {
+      const response = await this.get('/api/conciliacion-dashboard');
+      return response.data;
+    } catch (error) {
+      console.error('❌ Error obteniendo datos de conciliación:', error);
+      throw error;
+    }
+  }
+
   // Upload CSV
   async uploadCSV(file: File, channelId: string): Promise<{
     message: string;
