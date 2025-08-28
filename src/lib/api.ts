@@ -6,6 +6,36 @@ interface ApiResponse<T> {
   message?: string;
 }
 
+const fetchWithTimeout = async (url: string, options: RequestInit = {}, timeout = 10000) => {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+  
+  try {
+    const response = await fetch(url, {
+      ...options,
+      signal: controller.signal,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        ...options.headers,
+      },
+      mode: 'cors',
+    });
+    clearTimeout(id);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    return response;
+  } catch (error) {
+    clearTimeout(id);
+    if (error instanceof Error && error.name === 'AbortError') {
+      throw new Error('Request timeout - el servidor tardó más de 10 segundos en responder');
+    }
+    throw error;
+  }
+};
+
 class ApiClient {
   private token: string | null = null;
 
@@ -15,12 +45,8 @@ class ApiClient {
     console.log('🔑 Obteniendo token de:', `${API_BASE_URL}/auth/demo-token`);
     
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/demo-token`);
+      const response = await fetchWithTimeout(`${API_BASE_URL}/auth/demo-token`);
       console.log('📡 Respuesta del token:', response.status, response.statusText);
-      
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
       
       const data: ApiResponse<{ token: string }> = await response.json();
       console.log('✅ Datos del token:', data);
@@ -43,19 +69,8 @@ class ApiClient {
     console.log('🚀 Realizando petición a:', url, options.method || 'GET');
     
     try {
-      const response = await fetch(url, {
-        headers: {
-          'Content-Type': 'application/json',
-          ...options.headers,
-        },
-        ...options,
-      });
-      
+      const response = await fetchWithTimeout(url, options);
       console.log('📡 Respuesta:', response.status, response.statusText);
-      
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
       
       const data: ApiResponse<T> = await response.json();
       console.log('📊 Datos recibidos:', data);
