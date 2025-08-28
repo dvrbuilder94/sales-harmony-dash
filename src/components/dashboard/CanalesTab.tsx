@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useChannels } from '@/hooks/useChannels';
+import { ChannelConnections } from '@/components/ChannelConnections';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Loader2, Radio, Wifi, WifiOff } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { useChannels } from '@/hooks/useChannels';
 import { useDashboardData } from '@/hooks/useDashboardData';
 import { MultiChannelUpload } from '@/components/MultiChannelUpload';
 import { Download, Filter, Search, AlertCircle, CheckCircle } from 'lucide-react';
@@ -91,7 +93,18 @@ export function CanalesTab() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
+      {/* Channel Connections Section */}
+      <ChannelConnections />
+      
+      {/* Existing Channels Management */}
+      <div>
+        <h2 className="text-3xl font-bold tracking-tight">Gestión de Canales</h2>
+        <p className="text-muted-foreground">
+          Administra y monitorea el estado de tus canales de venta
+        </p>
+      </div>
+
       {/* Multi-Channel Upload */}
       <MultiChannelUpload />
 

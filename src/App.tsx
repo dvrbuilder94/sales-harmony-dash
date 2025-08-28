@@ -7,6 +7,7 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { GlobalLoadingProvider } from "@/hooks/useGlobalLoading";
 import { GlobalLoadingSpinner } from "@/components/GlobalLoadingSpinner";
+import { OAuthCallback } from "@/components/OAuthCallback";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
@@ -24,6 +25,7 @@ const App = () => (
           <BrowserRouter>
             <Routes>
               <Route path="/auth" element={<Auth />} />
+              <Route path="/auth/callback" element={<OAuthCallback />} />
               <Route path="/" element={
                 <ProtectedRoute>
                   <Index />

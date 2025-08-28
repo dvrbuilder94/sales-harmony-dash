@@ -7,11 +7,53 @@ interface ApiResponse<T> {
 }
 
 class ApiClient {
+  private externalApiUrl = 'https://b877bf50-33ac-4025-b2f7-fbb31711a323-00-3eceh8fu0w4nl.riker.replit.dev';
+  
   private async checkUserSession(): Promise<void> {
     const { data: { session } } = await supabase.auth.getSession();
     
     if (!session?.access_token) {
       throw new Error('No hay sesión autenticada');
+    }
+  }
+
+  private async getAuthHeaders(): Promise<Record<string, string>> {
+    const { data: { session } } = await supabase.auth.getSession();
+    return {
+      'Authorization': `Bearer ${session?.access_token}`,
+      'Content-Type': 'application/json'
+    };
+  }
+
+  // External API methods for channel connections
+  async get(path: string): Promise<{ data: any; status: number; headers: any }> {
+    try {
+      const headers = await this.getAuthHeaders();
+      const response = await fetch(`${this.externalApiUrl}${path}`, {
+        method: 'GET',
+        headers
+      });
+      const data = await response.json();
+      return { data, status: response.status, headers: response.headers };
+    } catch (error) {
+      console.error('External API GET error:', error);
+      throw error;
+    }
+  }
+
+  async post(path: string, body?: any): Promise<{ data: any; status: number; headers: any }> {
+    try {
+      const headers = await this.getAuthHeaders();
+      const response = await fetch(`${this.externalApiUrl}${path}`, {
+        method: 'POST',
+        headers,
+        body: body ? JSON.stringify(body) : undefined
+      });
+      const data = await response.json();
+      return { data, status: response.status, headers: response.headers };
+    } catch (error) {
+      console.error('External API POST error:', error);
+      throw error;
     }
   }
 
