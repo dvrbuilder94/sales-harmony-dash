@@ -81,7 +81,7 @@ const Auth = () => {
   const handleDemo = async () => {
     setLoadingDemo(true);
     try {
-      const response = await fetch('https://workspace.diegovasries.repl.co/demo-data');
+      const response = await fetch('https://b877bf50-33ac-4025-b2f7-fbb31711a323-00-3eceh8fu0w4nl.riker.replit.dev/demo-data');
       const data = await response.json();
       
       if (data.status === 'success') {
