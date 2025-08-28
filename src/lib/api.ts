@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://workspace.diegovasries.repl.co';
+const API_BASE_URL = 'https://b877bf50-33ac-4025-b2f7-fbb31711a323-00-3eceh8fu0w4nl.riker.replit.dev';
 
 interface ApiResponse<T> {
   status: 'success' | 'error';

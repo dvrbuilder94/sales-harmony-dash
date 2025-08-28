@@ -14,7 +14,7 @@ export function BackendHealthCheck() {
     setStatus('checking');
     setDetails('');
     
-    const backendUrl = 'https://workspace.diegovasries.repl.co';
+    const backendUrl = 'https://b877bf50-33ac-4025-b2f7-fbb31711a323-00-3eceh8fu0w4nl.riker.replit.dev';
     
     try {
       console.log('🏥 Verificando salud del backend...');
@@ -69,7 +69,7 @@ export function BackendHealthCheck() {
   };
 
   const testDirectUrl = () => {
-    window.open('https://workspace.diegovasries.repl.co/health', '_blank');
+    window.open('https://b877bf50-33ac-4025-b2f7-fbb31711a323-00-3eceh8fu0w4nl.riker.replit.dev/health', '_blank');
   };
 
   return (
@@ -125,7 +125,7 @@ export function BackendHealthCheck() {
         )}
         
         <div className="text-sm text-muted-foreground">
-          <p><strong>Backend URL:</strong> https://workspace.diegovasries.repl.co</p>
+          <p><strong>Backend URL:</strong> https://b877bf50-33ac-4025-b2f7-fbb31711a323-00-3eceh8fu0w4nl.riker.replit.dev</p>
           <p><strong>Health Endpoint:</strong> /health</p>
         </div>
       </CardContent>
