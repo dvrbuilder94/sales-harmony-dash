@@ -14,6 +14,68 @@ export type Database = {
   }
   public: {
     Tables: {
+      audit_logs: {
+        Row: {
+          action: string
+          channel_id: string | null
+          created_at: string
+          details: string | null
+          id: string
+          timestamp: string
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          channel_id?: string | null
+          created_at?: string
+          details?: string | null
+          id?: string
+          timestamp?: string
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          channel_id?: string | null
+          created_at?: string
+          details?: string | null
+          id?: string
+          timestamp?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_logs_channel_id_fkey"
+            columns: ["channel_id"]
+            isOneToOne: false
+            referencedRelation: "channels"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      channels: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          realtime: boolean
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          realtime?: boolean
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          realtime?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
       pagos: {
         Row: {
           created_at: string | null
@@ -43,6 +105,7 @@ export type Database = {
       }
       ventas: {
         Row: {
+          channel_id: string | null
           comisiones: number
           created_at: string | null
           devoluciones: number
@@ -55,6 +118,7 @@ export type Database = {
           updated_at: string | null
         }
         Insert: {
+          channel_id?: string | null
           comisiones?: number
           created_at?: string | null
           devoluciones?: number
@@ -67,6 +131,7 @@ export type Database = {
           updated_at?: string | null
         }
         Update: {
+          channel_id?: string | null
           comisiones?: number
           created_at?: string | null
           devoluciones?: number
@@ -78,7 +143,15 @@ export type Database = {
           order_id?: string
           updated_at?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "ventas_channel_id_fkey"
+            columns: ["channel_id"]
+            isOneToOne: false
+            referencedRelation: "channels"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

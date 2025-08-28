@@ -9,6 +9,7 @@ export interface Venta {
   devoluciones: number;
   created_at: string;
   updated_at: string;
+  channel_id?: string | null;
 }
 
 export interface Pago {
