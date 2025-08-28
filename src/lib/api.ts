@@ -12,33 +12,63 @@ class ApiClient {
   async getToken(): Promise<string> {
     if (this.token) return this.token;
     
-    const response = await fetch(`${API_BASE_URL}/auth/demo-token`);
-    const data: ApiResponse<{ token: string }> = await response.json();
+    console.log('🔑 Obteniendo token de:', `${API_BASE_URL}/auth/demo-token`);
     
-    if (data.status === 'error') {
-      throw new Error(data.message || 'Error obteniendo token');
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/demo-token`);
+      console.log('📡 Respuesta del token:', response.status, response.statusText);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const data: ApiResponse<{ token: string }> = await response.json();
+      console.log('✅ Datos del token:', data);
+      
+      if (data.status === 'error') {
+        throw new Error(data.message || 'Error obteniendo token');
+      }
+      
+      this.token = data.data?.token || '';
+      console.log('🎫 Token obtenido exitosamente');
+      return this.token;
+    } catch (error) {
+      console.error('❌ Error obteniendo token:', error);
+      throw error;
     }
-    
-    this.token = data.data?.token || '';
-    return this.token;
   }
 
   private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        ...options.headers,
-      },
-      ...options,
-    });
-
-    const data: ApiResponse<T> = await response.json();
+    const url = `${API_BASE_URL}${endpoint}`;
+    console.log('🚀 Realizando petición a:', url, options.method || 'GET');
     
-    if (data.status === 'error') {
-      throw new Error(data.message || 'Error en la petición');
+    try {
+      const response = await fetch(url, {
+        headers: {
+          'Content-Type': 'application/json',
+          ...options.headers,
+        },
+        ...options,
+      });
+      
+      console.log('📡 Respuesta:', response.status, response.statusText);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const data: ApiResponse<T> = await response.json();
+      console.log('📊 Datos recibidos:', data);
+      
+      if (data.status === 'error') {
+        throw new Error(data.message || 'Error en la petición');
+      }
+      
+      return data.data as T;
+    } catch (error) {
+      console.error('❌ Error en petición:', url, error);
+      throw error;
     }
-    
-    return data.data as T;
   }
 
   private async authenticatedRequest<T>(endpoint: string, options: RequestInit = {}): Promise<T> {

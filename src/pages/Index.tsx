@@ -2,6 +2,7 @@ import { useDashboardData } from '@/hooks/useDashboardData';
 import { useAuth } from '@/hooks/useAuth';
 import { DashboardTabs } from '@/components/dashboard/DashboardTabs';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { BackendHealthCheck } from '@/components/BackendHealthCheck';
 import { Button } from '@/components/ui/button';
 import { LogOut, User, BarChart3 } from 'lucide-react';
 
@@ -55,6 +56,9 @@ const Index = () => {
             </Button>
           </div>
         </div>
+
+        {/* Backend Health Check */}
+        <BackendHealthCheck />
 
         {/* Dashboard Content */}
         <div className="animate-fade-in">
