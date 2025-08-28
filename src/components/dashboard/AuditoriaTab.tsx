@@ -4,13 +4,16 @@ import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useAuditLogs } from '@/hooks/useAuditLogs';
-import { FileText, Download, Clock, User, Activity } from 'lucide-react';
+import { useUserRole } from '@/hooks/useUserRole';
+import { FileText, Download, Clock, User, Activity, Shield, AlertTriangle } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
 export function AuditoriaTab() {
   const { logs, loading } = useAuditLogs();
+  const { isAdmin, loading: roleLoading } = useUserRole();
   const { toast } = useToast();
   const [generatingReport, setGeneratingReport] = useState(false);
 
@@ -55,7 +58,7 @@ export function AuditoriaTab() {
     }
   };
 
-  if (loading) {
+  if (loading || roleLoading) {
     return (
       <div className="space-y-4">
         <Card className="animate-pulse">
@@ -67,6 +70,40 @@ export function AuditoriaTab() {
               {[1, 2, 3, 4, 5].map((i) => (
                 <div key={i} className="h-4 bg-muted rounded"></div>
               ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Show access denied message for non-admin users
+  if (!isAdmin) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h2 className="text-2xl font-bold">Auditoría del Sistema</h2>
+          <p className="text-muted-foreground">
+            Registro de actividades y cambios del sistema
+          </p>
+        </div>
+        
+        <Alert className="border-destructive/50">
+          <Shield className="h-4 w-4" />
+          <AlertDescription className="flex items-center gap-2">
+            <AlertTriangle className="h-4 w-4 text-destructive" />
+            <span>
+              <strong>Acceso Denegado:</strong> Solo los administradores pueden acceder a los logs de auditoría del sistema.
+              Contacta a un administrador si necesitas acceso a esta información.
+            </span>
+          </AlertDescription>
+        </Alert>
+
+        <Card>
+          <CardContent className="pt-6">
+            <div className="text-center py-8">
+              <Shield className="h-12 w-12 mx-auto text-muted-foreground/50 mb-4" />
+              <p className="text-muted-foreground">Esta sección requiere privilegios de administrador</p>
             </div>
           </CardContent>
         </Card>
