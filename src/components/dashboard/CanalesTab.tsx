@@ -1,123 +1,34 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { useChannels } from '@/hooks/useChannels';
 import { useDashboardData } from '@/hooks/useDashboardData';
-import { useAuditLogs } from '@/hooks/useAuditLogs';
-import { useDropzone } from 'react-dropzone';
-import { Upload, Download, Filter, Search, AlertCircle, CheckCircle } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/integrations/supabase/client';
+import { MultiChannelUpload } from '@/components/MultiChannelUpload';
+import { Download, Filter, Search, AlertCircle, CheckCircle } from 'lucide-react';
+import { useToast } from '@/components/ui/use-toast';
 import Papa from 'papaparse';
 
 export function CanalesTab() {
   const { channels, loading: channelsLoading } = useChannels();
   const { ventas, loading: ventasLoading, refetch } = useDashboardData();
-  const { addLog } = useAuditLogs();
   const { toast } = useToast();
   
-  const [selectedChannel, setSelectedChannel] = useState<string>('');
-  const [uploading, setUploading] = useState(false);
+  const [selectedChannel, setSelectedChannel] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [dateFilter, setDateFilter] = useState('');
 
   // Filter ventas by channel and search
   const filteredVentas = ventas.filter(venta => {
-    const matchesChannel = !selectedChannel || venta.channel_id === selectedChannel;
+    const matchesChannel = selectedChannel === 'all' || venta.channel_id === selectedChannel;
     const matchesSearch = !searchTerm || 
       venta.order_id.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesDate = !dateFilter || venta.fecha.includes(dateFilter);
     
     return matchesChannel && matchesSearch && matchesDate;
-  });
-
-  const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    if (!selectedChannel) {
-      toast({
-        title: "Error",
-        description: "Selecciona un canal antes de subir el archivo.",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    const file = acceptedFiles[0];
-    if (!file) return;
-
-    if (!file.name.endsWith('.csv')) {
-      toast({
-        title: "Error",
-        description: "Solo se permiten archivos CSV.",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    setUploading(true);
-
-    try {
-      // Parse CSV
-      Papa.parse(file, {
-        header: true,
-        complete: async (results) => {
-          try {
-            const { data, error } = await supabase.functions.invoke('upload-multi-channel-csv', {
-              body: {
-                csvData: results.data,
-                channelId: selectedChannel,
-                fileName: file.name
-              }
-            });
-
-            if (error) throw error;
-
-            await addLog('CSV_UPLOAD', `Archivo ${file.name} subido para canal ${channels.find(c => c.id === selectedChannel)?.name}`, selectedChannel);
-            
-            toast({
-              title: "Éxito",
-              description: `Archivo ${file.name} procesado correctamente. ${data.processed} registros procesados.`,
-            });
-
-            refetch();
-          } catch (error) {
-            toast({
-              title: "Error",
-              description: "Error al procesar el archivo CSV.",
-              variant: "destructive"
-            });
-          } finally {
-            setUploading(false);
-          }
-        },
-        error: () => {
-          toast({
-            title: "Error",
-            description: "Error al leer el archivo CSV.",
-            variant: "destructive"
-          });
-          setUploading(false);
-        }
-      });
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Error al procesar el archivo.",
-        variant: "destructive"
-      });
-      setUploading(false);
-    }
-  }, [selectedChannel, channels, addLog, toast, refetch]);
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      'text/csv': ['.csv']
-    },
-    multiple: false
   });
 
   const exportToCSV = () => {
@@ -145,7 +56,7 @@ export function CanalesTab() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `ventas-${selectedChannel ? channels.find(c => c.id === selectedChannel)?.name : 'todos'}-${new Date().toISOString().split('T')[0]}.csv`;
+    a.download = `ventas-${selectedChannel !== 'all' ? channels.find(c => c.id === selectedChannel)?.name : 'todos'}-${new Date().toISOString().split('T')[0]}.csv`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -181,13 +92,16 @@ export function CanalesTab() {
 
   return (
     <div className="space-y-6">
-      {/* Channel Selector */}
+      {/* Multi-Channel Upload */}
+      <MultiChannelUpload />
+
+      {/* Channel Selector and Filters */}
       <Card>
         <CardHeader>
-          <CardTitle>Selección de Canal</CardTitle>
+          <CardTitle>Filtros y Exportación</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
               <label className="text-sm font-medium mb-2 block">Canal:</label>
               <Select value={selectedChannel} onValueChange={setSelectedChannel}>
@@ -195,14 +109,13 @@ export function CanalesTab() {
                   <SelectValue placeholder="Seleccionar canal" />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="all">Todos los canales</SelectItem>
                   {channels.map((channel) => (
                     <SelectItem key={channel.id} value={channel.id}>
                       <div className="flex items-center gap-2">
                         {channel.name}
                         {channel.realtime && (
-                          <Badge variant="secondary" className="text-xs">
-                            Realtime
-                          </Badge>
+                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                         )}
                       </div>
                     </SelectItem>
@@ -210,62 +123,7 @@ export function CanalesTab() {
                 </SelectContent>
               </Select>
             </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* File Upload */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Subir Archivo CSV</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div
-            {...getRootProps()}
-            className={`
-              border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors
-              ${isDragActive 
-                ? 'border-primary bg-primary/10' 
-                : 'border-muted-foreground/25 hover:border-primary hover:bg-primary/5'
-              }
-              ${!selectedChannel ? 'opacity-50 cursor-not-allowed' : ''}
-            `}
-          >
-            <input {...getInputProps()} disabled={!selectedChannel || uploading} />
             
-            {uploading ? (
-              <div className="flex flex-col items-center gap-2">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-                <p>Procesando archivo...</p>
-              </div>
-            ) : (
-              <div className="flex flex-col items-center gap-2">
-                <Upload className="h-8 w-8 text-muted-foreground" />
-                <p className="text-lg font-medium">
-                  {isDragActive ? 'Suelta el archivo aquí' : 'Arrastra un archivo CSV o haz clic para seleccionar'}
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Solo archivos .csv son permitidos
-                </p>
-                {!selectedChannel && (
-                  <div className="flex items-center gap-2 text-orange-600 mt-2">
-                    <AlertCircle className="h-4 w-4" />
-                    <span className="text-sm">Selecciona un canal primero</span>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Filters and Export */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Filtros y Exportación</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
               <label className="text-sm font-medium mb-2 block">Buscar Order ID:</label>
               <div className="relative">

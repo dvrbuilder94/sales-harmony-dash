@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/components/ui/use-toast';
 import { RefreshCw } from 'lucide-react';
 import { KPIData } from '@/types/dashboard';
+import { apiClient } from '@/lib/api';
 
 interface ConciliationButtonProps {
   kpis: KPIData;
@@ -18,20 +19,19 @@ export const ConciliationButton = ({ kpis, onRefresh }: ConciliationButtonProps)
     setIsConciliating(true);
     
     try {
-      // Simular proceso de conciliación
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      const result = await apiClient.reconcile();
       
       // Refrescar datos después de la conciliación
       onRefresh();
       
       toast({
         title: "Conciliación Completada",
-        description: `Se han procesado ${kpis.ventasPendientes} ventas. Discrepancias encontradas: €${kpis.discrepancias.toFixed(2)}`,
+        description: result.message || `Se han procesado ${kpis.ventasPendientes} ventas. Discrepancias encontradas: €${kpis.discrepancias.toFixed(2)}`,
       });
     } catch (error) {
       toast({
         title: "Error en Conciliación",
-        description: "No se pudo completar el proceso de conciliación",
+        description: error instanceof Error ? error.message : "No se pudo completar el proceso de conciliación",
         variant: "destructive",
       });
     } finally {

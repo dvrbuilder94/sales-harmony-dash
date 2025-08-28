@@ -7,6 +7,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Badge } from '@/components/ui/badge';
+import { apiClient } from '@/lib/api';
+import { useToast } from '@/components/ui/use-toast';
+import { Play, TrendingUp, DollarSign, AlertTriangle } from 'lucide-react';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
@@ -14,9 +19,12 @@ const Auth = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [demoData, setDemoData] = useState<any>(null);
+  const [loadingDemo, setLoadingDemo] = useState(false);
 
   const { signIn, signUp, user } = useAuth();
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -68,6 +76,39 @@ const Auth = () => {
     }
     
     setLoading(false);
+  };
+
+  const handleDemo = async () => {
+    setLoadingDemo(true);
+    try {
+      const response = await fetch('https://workspace.diegovasries.repl.co/demo-data');
+      const data = await response.json();
+      
+      if (data.status === 'success') {
+        setDemoData(data.data);
+        toast({
+          title: "Demo cargado",
+          description: "Datos de demostración cargados exitosamente",
+        });
+      } else {
+        throw new Error(data.message || 'Error cargando demo');
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "No se pudieron cargar los datos de demostración",
+        variant: "destructive"
+      });
+    } finally {
+      setLoadingDemo(false);
+    }
+  };
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('es-ES', {
+      style: 'currency',
+      currency: 'EUR'
+    }).format(amount);
   };
 
   return (
@@ -146,6 +187,92 @@ const Auth = () => {
               </form>
             </TabsContent>
           </Tabs>
+
+          {/* Demo Button */}
+          <div className="mt-4">
+            <div className="text-center text-sm text-muted-foreground mb-2">
+              ¿Quieres ver una demostración?
+            </div>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button 
+                  variant="outline" 
+                  className="w-full"
+                  onClick={handleDemo}
+                  disabled={loadingDemo}
+                >
+                  <Play className="h-4 w-4 mr-2" />
+                  {loadingDemo ? 'Cargando...' : 'Probar Demo'}
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-4xl">
+                <DialogHeader>
+                  <DialogTitle>Demostración del Dashboard</DialogTitle>
+                </DialogHeader>
+                {demoData && (
+                  <div className="space-y-6">
+                    {/* Demo KPIs */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <Card className="border-blue-200 bg-blue-50/50">
+                        <CardHeader className="pb-2">
+                          <CardTitle className="text-sm font-medium text-blue-700 flex items-center gap-2">
+                            <TrendingUp className="h-4 w-4" />
+                            Ventas Netas
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="text-2xl font-bold text-blue-800">
+                            {formatCurrency(demoData.kpis?.ventasNetas || 0)}
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card className="border-green-200 bg-green-50/50">
+                        <CardHeader className="pb-2">
+                          <CardTitle className="text-sm font-medium text-green-700 flex items-center gap-2">
+                            <DollarSign className="h-4 w-4" />
+                            Comisiones
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="text-2xl font-bold text-green-800">
+                            {formatCurrency(demoData.kpis?.comisionesTotales || 0)}
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card className="border-orange-200 bg-orange-50/50">
+                        <CardHeader className="pb-2">
+                          <CardTitle className="text-sm font-medium text-orange-700 flex items-center gap-2">
+                            <AlertTriangle className="h-4 w-4" />
+                            Discrepancias
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="text-2xl font-bold text-orange-800">
+                            {formatCurrency(demoData.kpis?.discrepancias || 0)}
+                          </div>
+                          <p className="text-xs text-orange-600">
+                            {demoData.kpis?.ventasPendientes || 0} ventas pendientes
+                          </p>
+                        </CardContent>
+                      </Card>
+                    </div>
+
+                    {/* Demo Info */}
+                    <div className="text-center">
+                      <Badge variant="secondary" className="mb-2">
+                        Datos de Demostración
+                      </Badge>
+                      <p className="text-sm text-muted-foreground">
+                        Estos datos son generados automáticamente para mostrar las funcionalidades del dashboard.
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </DialogContent>
+            </Dialog>
+          </div>
 
           {error && (
             <Alert className="mt-4 border-destructive">
