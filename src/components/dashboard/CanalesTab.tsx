@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useDashboardData } from '@/hooks/useDashboardData';
 import { MultiChannelUpload } from '@/components/MultiChannelUpload';
+import { FalabellaIntegration } from '@/components/FalabellaIntegration';
 import { Download, Filter, Search, AlertCircle, CheckCircle } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import Papa from 'papaparse';
@@ -107,6 +108,9 @@ export function CanalesTab() {
 
       {/* Multi-Channel Upload */}
       <MultiChannelUpload />
+
+      {/* Falabella Integration */}
+      <FalabellaIntegration onDataRefresh={refetch} />
 
       {/* Channel Selector and Filters */}
       <Card>

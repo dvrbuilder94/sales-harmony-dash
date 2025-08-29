@@ -223,6 +223,27 @@ class ApiClient {
     }
   }
 
+  // Falabella Integration
+  async connectFalabella(credentials: { user_id: string; signature: string }): Promise<{ message: string }> {
+    try {
+      const response = await this.post('/connect/falabella', credentials);
+      return response.data;
+    } catch (error) {
+      console.error('❌ Error connecting to Falabella:', error);
+      throw error;
+    }
+  }
+
+  async fetchFalabellaData(): Promise<{ sales: any[]; message: string }> {
+    try {
+      const response = await this.get('/fetch-falabella');
+      return response.data;
+    } catch (error) {
+      console.error('❌ Error fetching Falabella data:', error);
+      throw error;
+    }
+  }
+
   // Upload CSV
   async uploadCSV(file: File, channelId: string): Promise<{
     message: string;
