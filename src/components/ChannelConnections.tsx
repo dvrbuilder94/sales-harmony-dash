@@ -57,12 +57,15 @@ export const ChannelConnections = () => {
   };
 
   // Mock enhanced channel data for better UX
-  const enhancedChannels = Object.entries(channels).map(([key, channel]) => ({
-    ...channel,
-    lastSync: channel.status === 'connected' ? new Date().toISOString() : undefined,
-    productsCount: channel.status === 'connected' ? Math.floor(Math.random() * 1000) + 100 : 0,
-    syncStatus: channel.status === 'connected' ? 'success' : 'idle' as const,
-  }));
+  const enhancedChannels = Object.entries(channels).map(([key, channel]) => ([
+    key,
+    {
+      ...channel,
+      lastSync: channel.status === 'connected' ? new Date().toISOString() : undefined,
+      productsCount: channel.status === 'connected' ? Math.floor(Math.random() * 1000) + 100 : 0,
+      syncStatus: channel.status === 'connected' ? 'success' : 'idle' as const,
+    }
+  ]));
 
   const handleDisconnect = async (channelKey: string) => {
     // TODO: Implement disconnect logic
