@@ -14,6 +14,10 @@ export const OAuthCallback = () => {
     const error = urlParams.get('error');
     const errorDescription = urlParams.get('error_description');
 
+    // Determine which platform we're handling based on the URL path
+    const currentPath = window.location.pathname;
+    const platform = currentPath.includes('mercadolibre') ? 'MercadoLibre' : 'Canal';
+
     if (error) {
       toast({
         title: "Error de autorización",
@@ -25,13 +29,15 @@ export const OAuthCallback = () => {
     }
 
     if (code) {
+      // Update channel status in Supabase if needed
+      updateChannelStatus(code, state);
+      
       toast({
         title: "Conexión exitosa",
-        description: "La conexión con el canal se completó correctamente.",
+        description: `La conexión con ${platform} se completó correctamente.`,
       });
       navigate('/');
     } else {
-      // If no code or error, something went wrong
       toast({
         title: "Error inesperado",
         description: "No se recibió información de autorización válida.",
@@ -40,6 +46,15 @@ export const OAuthCallback = () => {
       navigate('/');
     }
   }, [navigate, toast]);
+
+  const updateChannelStatus = async (code: string, state: string | null) => {
+    try {
+      // You could update the channel status here if needed
+      console.log('OAuth callback received:', { code, state });
+    } catch (error) {
+      console.error('Error updating channel status:', error);
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">

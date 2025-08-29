@@ -26,6 +26,7 @@ const App = () => (
             <Routes>
               <Route path="/auth" element={<Auth />} />
               <Route path="/auth/callback" element={<OAuthCallback />} />
+              <Route path="/auth/mercadolibre/callback" element={<OAuthCallback />} />
               <Route path="/" element={
                 <ProtectedRoute>
                   <Index />

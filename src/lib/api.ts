@@ -244,6 +244,46 @@ class ApiClient {
     }
   }
 
+  // MercadoLibre Integration
+  async connectMercadoLibre(credentials: { 
+    client_id: string; 
+    client_secret: string; 
+    redirect_uri: string 
+  }): Promise<{ message: string; redirect_url?: string }> {
+    try {
+      const response = await this.post('/connect/mercadolibre', credentials);
+      return response.data;
+    } catch (error) {
+      console.error('❌ Error connecting to MercadoLibre:', error);
+      throw error;
+    }
+  }
+
+  async createMLTestUsers(): Promise<{ test_users: any[]; message: string }> {
+    try {
+      const response = await this.post('/create-ml-test-user');
+      return response.data;
+    } catch (error) {
+      console.error('❌ Error creating ML test users:', error);
+      throw error;
+    }
+  }
+
+  async fetchMercadoLibreData(): Promise<{ 
+    sales: any[];
+    processed: number;
+    discrepancies?: any[];
+    message: string 
+  }> {
+    try {
+      const response = await this.get('/fetch-mercadolibre');
+      return response.data;
+    } catch (error) {
+      console.error('❌ Error fetching MercadoLibre data:', error);
+      throw error;
+    }
+  }
+
   // Upload CSV
   async uploadCSV(file: File, channelId: string): Promise<{
     message: string;
