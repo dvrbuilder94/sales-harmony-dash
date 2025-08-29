@@ -3,6 +3,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { DashboardTabs } from '@/components/dashboard/DashboardTabs';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { BackendHealthCheck } from '@/components/BackendHealthCheck';
+import { QuickActions } from '@/components/QuickActions';
 import { Button } from '@/components/ui/button';
 import { LogOut, User, BarChart3 } from 'lucide-react';
 
@@ -61,10 +62,13 @@ const Index = () => {
         <BackendHealthCheck />
 
         {/* Dashboard Content */}
-        <div className="animate-fade-in">
+        <div className="animate-fade-in pb-20">
           <DashboardTabs />
         </div>
       </div>
+
+      {/* Quick Actions - Floating Button */}
+      <QuickActions />
     </div>
   );
 };

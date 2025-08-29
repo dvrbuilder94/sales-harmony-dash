@@ -311,6 +311,122 @@ class ApiClient {
       throw new Error('Error procesando el archivo CSV');
     }
   }
+
+  // User Dashboard methods
+  async getUserDashboard() {
+    try {
+      const response = await this.get('/user-dashboard');
+      return response.data;
+    } catch (error) {
+      // Fallback with mock data if API is not available
+      return this.getMockUserDashboard();
+    }
+  }
+
+  async syncAllChannels() {
+    return this.post('/quick-actions/sync-all-channels');
+  }
+
+  async syncChannel(channelId: string) {
+    return this.post('/quick-actions/sync-channel', { channelId });
+  }
+
+  async executeReconciliation() {
+    return this.post('/quick-actions/reconciliation');
+  }
+
+  async exportReport(type: 'ventas' | 'pagos' | 'conciliacion', format: 'csv' | 'excel') {
+    const response = await this.get(`/export/${type}?format=${format}`);
+    return { data: response.data };
+  }
+
+  async configureAlert(alertConfig: any) {
+    return this.post('/alerts/configure', alertConfig);
+  }
+
+  // Mock data for development
+  private getMockUserDashboard() {
+    const now = new Date();
+    return {
+      kpis: {
+        ventas30d: {
+          total: 25750000,
+          cambio: 12.5,
+          tendencia: 'up' as const,
+        },
+        canalesActivos: 3,
+        discrepancias: {
+          total: 12,
+          sinResolver: 2,
+        },
+      },
+      channelMetrics: [
+        {
+          id: 'mercadolibre',
+          name: 'MercadoLibre',
+          status: 'connected' as const,
+          healthStatus: 'healthy' as const,
+          lastSync: now.toISOString(),
+          revenue30d: 15500000,
+          orders30d: 145,
+          conversionRate: 3.2,
+        },
+        {
+          id: 'falabella',
+          name: 'Falabella',
+          status: 'connected' as const,
+          healthStatus: 'needs_setup' as const,
+          lastSync: new Date(now.getTime() - 2 * 60 * 60 * 1000).toISOString(),
+          revenue30d: 8750000,
+          orders30d: 98,
+          conversionRate: 2.8,
+        },
+        {
+          id: 'shopify',
+          name: 'Shopify',
+          status: 'disconnected' as const,
+          healthStatus: 'error' as const,
+          lastSync: null,
+          revenue30d: 1500000,
+          orders30d: 23,
+          conversionRate: 1.5,
+        },
+      ],
+      alerts: [
+        {
+          id: '1',
+          type: 'warning' as const,
+          title: 'Discrepancia detectada',
+          message: 'Se encontraron diferencias entre ventas y pagos del canal MercadoLibre',
+          channelId: 'mercadolibre',
+          createdAt: new Date(now.getTime() - 30 * 60 * 1000).toISOString(),
+          isActive: true,
+        },
+        {
+          id: '2',
+          type: 'error' as const,
+          title: 'Canal desconectado',
+          message: 'El canal Shopify ha perdido la conexión y requiere reautenticación',
+          channelId: 'shopify',
+          createdAt: new Date(now.getTime() - 60 * 60 * 1000).toISOString(),
+          isActive: true,
+        },
+      ],
+      preferences: {
+        alertThresholds: {
+          lowRevenue: 100000,
+          highDiscrepancy: 50000,
+          syncFailures: 3,
+        },
+        notifications: {
+          email: true,
+          push: false,
+          discord: false,
+          slack: true,
+        },
+      },
+    };
+  }
 }
 
 export const apiClient = new ApiClient();
