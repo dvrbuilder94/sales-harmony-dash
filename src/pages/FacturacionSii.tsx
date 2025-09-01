@@ -13,7 +13,7 @@ export default function FacturacionSii() {
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-gradient-to-br from-background to-muted">
-        <AppSidebar currentSection="sii" />
+        <AppSidebar />
         
         <main className="flex-1">
           <header className="h-16 flex items-center border-b bg-background/80 backdrop-blur-sm px-6">

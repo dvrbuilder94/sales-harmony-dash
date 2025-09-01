@@ -39,6 +39,9 @@ interface Venta {
   created_at: string
 }
 
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { AppSidebar } from '@/components/layout/AppSidebar'
+
 const Ventas = () => {
   const [dateRange, setDateRange] = useState<{ from?: Date; to?: Date }>({})
   const [channelFilter, setChannelFilter] = useState<string>('all')
@@ -194,143 +197,161 @@ const Ventas = () => {
   ]
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold">Gestión de Ventas</h1>
-          <p className="text-muted-foreground">
-            Administra y analiza todas tus transacciones de venta
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="outline" className="gap-2">
-            <Filter className="h-4 w-4" />
-            Filtros Avanzados
-          </Button>
-          <Button className="gap-2">
-            <Download className="h-4 w-4" />
-            Exportar
-          </Button>
-        </div>
-      </div>
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full bg-gradient-to-br from-background to-muted">
+        <AppSidebar />
+        
+        <main className="flex-1">
+          <header className="h-16 flex items-center border-b bg-background/80 backdrop-blur-sm px-6">
+            <SidebarTrigger className="mr-4" />
+            <div>
+              <h1 className="text-xl font-semibold">💰 Ventas</h1>
+              <p className="text-sm text-muted-foreground">Gestión y análisis de transacciones</p>
+            </div>
+          </header>
 
-      {/* KPIs */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard
-          title="Total Ventas"
-          value={kpis.totalVentas}
-          description="Transacciones procesadas"
-          icon={Package}
-          trend={{ value: 12, type: 'up', label: 'vs mes anterior' }}
-        />
-        <StatCard
-          title="Ingresos Brutos"
-          value={new Intl.NumberFormat('es-CL', {
-            style: 'currency',
-            currency: 'CLP',
-            maximumFractionDigits: 0
-          }).format(kpis.totalBruto)}
-          description="Total facturado"
-          icon={BarChart3}
-          trend={{ value: 8, type: 'up', label: 'vs mes anterior' }}
-        />
-        <StatCard
-          title="Ingresos Netos"
-          value={new Intl.NumberFormat('es-CL', {
-            style: 'currency',
-            currency: 'CLP',
-            maximumFractionDigits: 0
-          }).format(kpis.totalNeto)}
-          description="Después de comisiones"
-          icon={DollarSign}
-          variant="success"
-          trend={{ value: 15, type: 'up', label: 'vs mes anterior' }}
-        />
-        <StatCard
-          title="Promedio por Venta"
-          value={new Intl.NumberFormat('es-CL', {
-            style: 'currency',
-            currency: 'CLP',
-            maximumFractionDigits: 0
-          }).format(kpis.promedioVenta)}
-          description="Ticket promedio"
-          icon={TrendingUp}
-          trend={{ value: 3, type: 'down', label: 'vs mes anterior' }}
-        />
-      </div>
+          <div className="p-6">
+            <div className="space-y-6">
+              {/* Header */}
+              <div className="flex justify-between items-center">
+                <div>
+                  <h2 className="text-2xl font-bold">Gestión de Ventas</h2>
+                  <p className="text-muted-foreground">
+                    Administra y analiza todas tus transacciones de venta
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <Button variant="outline" className="gap-2">
+                    <Filter className="h-4 w-4" />
+                    Filtros Avanzados
+                  </Button>
+                  <Button className="gap-2">
+                    <Download className="h-4 w-4" />
+                    Exportar
+                  </Button>
+                </div>
+              </div>
 
-      {/* Filtros */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">Filtros</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div>
-              <label className="text-sm font-medium mb-2 block">Fecha Inicio</label>
-              <Input
-                type="date"
-                onChange={(e) => setDateRange(prev => ({ 
-                  ...prev, 
-                  from: e.target.value ? new Date(e.target.value) : undefined 
-                }))}
-              />
-            </div>
-            <div>
-              <label className="text-sm font-medium mb-2 block">Fecha Fin</label>
-              <Input
-                type="date"
-                onChange={(e) => setDateRange(prev => ({ 
-                  ...prev, 
-                  to: e.target.value ? new Date(e.target.value) : undefined 
-                }))}
-              />
-            </div>
-            <div>
-              <label className="text-sm font-medium mb-2 block">Canal</label>
-              <Select value={channelFilter} onValueChange={setChannelFilter}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Todos los canales" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Todos los canales</SelectItem>
-                  <SelectItem value="mercadolibre">MercadoLibre</SelectItem>
-                  <SelectItem value="falabella">Falabella</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div>
-              <label className="text-sm font-medium mb-2 block">Monto Mínimo</label>
-              <Input
-                type="number"
-                placeholder="$0"
-                onChange={(e) => setAmountRange(prev => ({ 
-                  ...prev, 
-                  min: e.target.value ? parseFloat(e.target.value) : undefined 
-                }))}
-              />
+              {/* KPIs */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <StatCard
+                  title="Total Ventas"
+                  value={kpis.totalVentas}
+                  description="Transacciones procesadas"
+                  icon={Package}
+                  trend={{ value: 12, type: 'up', label: 'vs mes anterior' }}
+                />
+                <StatCard
+                  title="Ingresos Brutos"
+                  value={new Intl.NumberFormat('es-CL', {
+                    style: 'currency',
+                    currency: 'CLP',
+                    maximumFractionDigits: 0
+                  }).format(kpis.totalBruto)}
+                  description="Total facturado"
+                  icon={BarChart3}
+                  trend={{ value: 8, type: 'up', label: 'vs mes anterior' }}
+                />
+                <StatCard
+                  title="Ingresos Netos"
+                  value={new Intl.NumberFormat('es-CL', {
+                    style: 'currency',
+                    currency: 'CLP',
+                    maximumFractionDigits: 0
+                  }).format(kpis.totalNeto)}
+                  description="Después de comisiones"
+                  icon={DollarSign}
+                  variant="success"
+                  trend={{ value: 15, type: 'up', label: 'vs mes anterior' }}
+                />
+                <StatCard
+                  title="Promedio por Venta"
+                  value={new Intl.NumberFormat('es-CL', {
+                    style: 'currency',
+                    currency: 'CLP',
+                    maximumFractionDigits: 0
+                  }).format(kpis.promedioVenta)}
+                  description="Ticket promedio"
+                  icon={TrendingUp}
+                  trend={{ value: 3, type: 'down', label: 'vs mes anterior' }}
+                />
+              </div>
+
+              {/* Filtros */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Filtros</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Fecha Inicio</label>
+                      <Input
+                        type="date"
+                        onChange={(e) => setDateRange(prev => ({ 
+                          ...prev, 
+                          from: e.target.value ? new Date(e.target.value) : undefined 
+                        }))}
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Fecha Fin</label>
+                      <Input
+                        type="date"
+                        onChange={(e) => setDateRange(prev => ({ 
+                          ...prev, 
+                          to: e.target.value ? new Date(e.target.value) : undefined 
+                        }))}
+                      />
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Canal</label>
+                      <Select value={channelFilter} onValueChange={setChannelFilter}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Todos los canales" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">Todos los canales</SelectItem>
+                          <SelectItem value="mercadolibre">MercadoLibre</SelectItem>
+                          <SelectItem value="falabella">Falabella</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium mb-2 block">Monto Mínimo</label>
+                      <Input
+                        type="number"
+                        placeholder="$0"
+                        onChange={(e) => setAmountRange(prev => ({ 
+                          ...prev, 
+                          min: e.target.value ? parseFloat(e.target.value) : undefined 
+                        }))}
+                      />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Tabla */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Transacciones</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <DataTable
+                    columns={columns}
+                    data={ventas}
+                    searchKey="order_id"
+                    searchPlaceholder="Buscar por Order ID..."
+                    pageSize={15}
+                  />
+                </CardContent>
+              </Card>
             </div>
           </div>
-        </CardContent>
-      </Card>
-
-      {/* Tabla */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Transacciones</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <DataTable
-            columns={columns}
-            data={ventas}
-            searchKey="order_id"
-            searchPlaceholder="Buscar por Order ID..."
-            pageSize={15}
-          />
-        </CardContent>
-      </Card>
-    </div>
+        </main>
+      </div>
+    </SidebarProvider>
   )
 }
 

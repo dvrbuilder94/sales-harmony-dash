@@ -13,7 +13,6 @@ import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import Reconciliation from "./pages/Reconciliation";
 import FacturacionSii from "./pages/FacturacionSii";
-import ErpConectores from "./pages/ErpConectores";
 import Ventas from "./pages/Ventas";
 import Canales from "./pages/Canales";
 import Reportes from "./pages/Reportes";
@@ -39,41 +38,36 @@ const App = () => (
                   <Index />
                 </ProtectedRoute>
               } />
-              <Route path="/reconciliation" element={
+              <Route path="/ventas" element={
+                <ProtectedRoute>
+                  <Ventas />
+                </ProtectedRoute>
+              } />
+              <Route path="/facturacion/*" element={
+                <ProtectedRoute>
+                  <FacturacionSii />
+                </ProtectedRoute>
+              } />
+              <Route path="/reconciliacion" element={
                 <ProtectedRoute>
                   <Reconciliation />
                 </ProtectedRoute>
               } />
-          <Route path="/facturacion-sii/*" element={
-            <ProtectedRoute>
-              <FacturacionSii />
-            </ProtectedRoute>
-          } />
-          <Route path="/erp-conectores/*" element={
-            <ProtectedRoute>
-              <ErpConectores />
-            </ProtectedRoute>
-          } />
-          <Route path="/ventas" element={
-            <ProtectedRoute>
-              <Ventas />
-            </ProtectedRoute>
-          } />
-          <Route path="/canales" element={
-            <ProtectedRoute>
-              <Canales />
-            </ProtectedRoute>
-          } />
-          <Route path="/reportes" element={
-            <ProtectedRoute>
-              <Reportes />
-            </ProtectedRoute>
-          } />
-          <Route path="/configuracion" element={
-            <ProtectedRoute>
-              <Configuracion />
-            </ProtectedRoute>
-          } />
+              <Route path="/canales" element={
+                <ProtectedRoute>
+                  <Canales />
+                </ProtectedRoute>
+              } />
+              <Route path="/reportes" element={
+                <ProtectedRoute>
+                  <Reportes />
+                </ProtectedRoute>
+              } />
+              <Route path="/config" element={
+                <ProtectedRoute>
+                  <Configuracion />
+                </ProtectedRoute>
+              } />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
