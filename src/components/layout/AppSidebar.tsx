@@ -145,9 +145,13 @@ export function AppSidebar({ currentSection = 'main' }: AppSidebarProps) {
   // Main dashboard sidebar
   const mainItems = [
     { title: "Dashboard", url: "/", icon: Home },
+    { title: "Ventas", url: "/ventas", icon: BarChart3 },
     { title: "Facturación SII", url: "/facturacion-sii", icon: FileText },
-    { title: "ERP Conectores", url: "/erp-conectores", icon: Building2 },
-    { title: "Conciliación", url: "/reconciliation", icon: BarChart3 },
+    { title: "Reconciliación", url: "/reconciliation", icon: CheckCircle },
+    { title: "Canales", url: "/canales", icon: Zap },
+    { title: "ERP Integration", url: "/erp-conectores", icon: Building2 },
+    { title: "Reportes", url: "/reportes", icon: Receipt },
+    { title: "Configuración", url: "/configuracion", icon: Settings },
   ]
 
   return (

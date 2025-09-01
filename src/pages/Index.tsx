@@ -1,13 +1,9 @@
-import { useState } from 'react';
 import { useDashboardData } from '@/hooks/useDashboardData';
 import { useAuth } from '@/hooks/useAuth';
 import { useUserDashboard } from '@/hooks/useUserDashboard';
-import { DashboardTabs } from '@/components/dashboard/DashboardTabs';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { BackendHealthCheck } from '@/components/BackendHealthCheck';
-import { QuickActions } from '@/components/QuickActions';
 import { CriticalAlerts } from '@/components/CriticalAlerts';
-import { IntelligentInsights } from '@/components/IntelligentInsights';
 import { UserKPICards } from '@/components/UserKPICards';
 import { SiiKpiCards } from '@/components/sii/SiiKpiCards';
 import { ErpKpiCards } from '@/components/erp/ErpKpiCards';
@@ -16,7 +12,7 @@ import { LatestSyncs } from '@/components/erp/LatestSyncs';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { LogOut, User, BarChart3, FileText, Settings } from 'lucide-react';
+import { LogOut, User, BarChart3, FileText, Settings, TrendingUp, Zap, Receipt } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
@@ -92,9 +88,6 @@ const Index = () => {
         {/* Critical Alerts */}
         <CriticalAlerts />
 
-        {/* Intelligent Insights */}
-        <IntelligentInsights />
-
         <Separator />
 
         {/* Latest Activity Section */}
@@ -103,18 +96,30 @@ const Index = () => {
           <LatestSyncs />
         </div>
         
-        {/* Quick Access to New Features */}
+        {/* Quick Access Navigation */}
         <Card className="bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 border-primary/20">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              🚀 Herramientas Empresariales
+              🚀 Acceso Rápido
             </CardTitle>
             <CardDescription>
-              Accede a facturación electrónica SII y tu conector ERP principal
+              Navega rápidamente a las secciones principales de SalesHarmony
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Button 
+                onClick={() => navigate('/ventas')}
+                className="h-auto p-4 flex flex-col items-center gap-2"
+                variant="outline"
+              >
+                <TrendingUp className="w-6 h-6" />
+                <div className="text-center">
+                  <p className="font-medium">Ventas</p>
+                  <p className="text-xs text-muted-foreground">Gestión completa</p>
+                </div>
+              </Button>
+
               <Button 
                 onClick={() => navigate('/facturacion-sii')}
                 className="h-auto p-4 flex flex-col items-center gap-2"
@@ -123,45 +128,37 @@ const Index = () => {
                 <FileText className="w-6 h-6" />
                 <div className="text-center">
                   <p className="font-medium">Facturación SII</p>
-                  <p className="text-xs text-muted-foreground">Facturas electrónicas</p>
+                  <p className="text-xs text-muted-foreground">DTEs electrónicos</p>
                 </div>
               </Button>
               
               <Button 
-                onClick={() => navigate('/erp-conectores')}
+                onClick={() => navigate('/canales')}
                 className="h-auto p-4 flex flex-col items-center gap-2"
                 variant="outline"
               >
-                <Settings className="w-6 h-6" />
+                <Zap className="w-6 h-6" />
                 <div className="text-center">
-                  <p className="font-medium">ERP Principal</p>
-                  <p className="text-xs text-muted-foreground">Tu conector configurado</p>
+                  <p className="font-medium">Canales</p>
+                  <p className="text-xs text-muted-foreground">Marketplaces</p>
                 </div>
               </Button>
 
               <Button 
-                onClick={() => navigate('/reconciliation')}
+                onClick={() => navigate('/reportes')}
                 className="h-auto p-4 flex flex-col items-center gap-2"
                 variant="outline"
               >
-                <BarChart3 className="w-6 h-6" />
+                <Receipt className="w-6 h-6" />
                 <div className="text-center">
-                  <p className="font-medium">Conciliación IA</p>
-                  <p className="text-xs text-muted-foreground">Análisis inteligente</p>
+                  <p className="font-medium">Reportes</p>
+                  <p className="text-xs text-muted-foreground">Analytics</p>
                 </div>
               </Button>
             </div>
           </CardContent>
         </Card>
-
-        {/* Dashboard Tabs */}
-        <div className="space-y-6">
-          <DashboardTabs />
-        </div>
       </div>
-
-      {/* Quick Actions - Floating Button */}
-      <QuickActions />
     </div>
   );
 };

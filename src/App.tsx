@@ -14,6 +14,10 @@ import NotFound from "./pages/NotFound";
 import Reconciliation from "./pages/Reconciliation";
 import FacturacionSii from "./pages/FacturacionSii";
 import ErpConectores from "./pages/ErpConectores";
+import Ventas from "./pages/Ventas";
+import Canales from "./pages/Canales";
+import Reportes from "./pages/Reportes";
+import Configuracion from "./pages/Configuracion";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +52,26 @@ const App = () => (
           <Route path="/erp-conectores/*" element={
             <ProtectedRoute>
               <ErpConectores />
+            </ProtectedRoute>
+          } />
+          <Route path="/ventas" element={
+            <ProtectedRoute>
+              <Ventas />
+            </ProtectedRoute>
+          } />
+          <Route path="/canales" element={
+            <ProtectedRoute>
+              <Canales />
+            </ProtectedRoute>
+          } />
+          <Route path="/reportes" element={
+            <ProtectedRoute>
+              <Reportes />
+            </ProtectedRoute>
+          } />
+          <Route path="/configuracion" element={
+            <ProtectedRoute>
+              <Configuracion />
             </ProtectedRoute>
           } />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
