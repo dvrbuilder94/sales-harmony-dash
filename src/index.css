@@ -53,6 +53,24 @@ All colors MUST be HSL.
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* AI System Colors */
+    --ai-primary: 217 91% 60%;
+    --ai-primary-foreground: 0 0% 100%;
+    --ai-secondary: 217 32% 85%;
+    --ai-secondary-foreground: 217 91% 60%;
+    
+    /* Success Colors */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    
+    /* Warning Colors */
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    
+    /* Critical Colors */
+    --critical: 0 84% 60%;
+    --critical-foreground: 0 0% 100%;
   }
 
   .dark {
@@ -91,6 +109,24 @@ All colors MUST be HSL.
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* AI System Colors */
+    --ai-primary: 217 91% 60%;
+    --ai-primary-foreground: 0 0% 100%;
+    --ai-secondary: 217 32% 17%;
+    --ai-secondary-foreground: 217 91% 60%;
+    
+    /* Success Colors */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    
+    /* Warning Colors */
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    
+    /* Critical Colors */
+    --critical: 0 84% 60%;
+    --critical-foreground: 0 0% 100%;
   }
 }
 

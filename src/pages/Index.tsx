@@ -4,6 +4,8 @@ import { DashboardTabs } from '@/components/dashboard/DashboardTabs';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { BackendHealthCheck } from '@/components/BackendHealthCheck';
 import { QuickActions } from '@/components/QuickActions';
+import { CriticalAlerts } from '@/components/CriticalAlerts';
+import { IntelligentInsights } from '@/components/IntelligentInsights';
 import { Button } from '@/components/ui/button';
 import { LogOut, User, BarChart3 } from 'lucide-react';
 
@@ -61,9 +63,17 @@ const Index = () => {
         {/* Backend Health Check */}
         <BackendHealthCheck />
 
-        {/* Dashboard Content */}
-        <div className="animate-fade-in pb-20">
-          <DashboardTabs />
+        {/* Critical Alerts */}
+        <CriticalAlerts />
+
+        {/* Intelligent Insights */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <IntelligentInsights />
+          
+          {/* Dashboard Content */}
+          <div className="animate-fade-in">
+            <DashboardTabs />
+          </div>
         </div>
       </div>
 

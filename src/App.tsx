@@ -11,6 +11,7 @@ import { OAuthCallback } from "@/components/OAuthCallback";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
+import Reconciliation from "./pages/Reconciliation";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,11 @@ const App = () => (
               <Route path="/" element={
                 <ProtectedRoute>
                   <Index />
+                </ProtectedRoute>
+              } />
+              <Route path="/reconciliation" element={
+                <ProtectedRoute>
+                  <Reconciliation />
                 </ProtectedRoute>
               } />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
