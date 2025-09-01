@@ -1,17 +1,29 @@
+import { useState } from 'react';
 import { useDashboardData } from '@/hooks/useDashboardData';
 import { useAuth } from '@/hooks/useAuth';
+import { useUserDashboard } from '@/hooks/useUserDashboard';
 import { DashboardTabs } from '@/components/dashboard/DashboardTabs';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { BackendHealthCheck } from '@/components/BackendHealthCheck';
 import { QuickActions } from '@/components/QuickActions';
 import { CriticalAlerts } from '@/components/CriticalAlerts';
 import { IntelligentInsights } from '@/components/IntelligentInsights';
+import { UserKPICards } from '@/components/UserKPICards';
+import { SiiKpiCards } from '@/components/sii/SiiKpiCards';
+import { ErpKpiCards } from '@/components/erp/ErpKpiCards';
+import { LatestInvoices } from '@/components/sii/LatestInvoices';
+import { LatestSyncs } from '@/components/erp/LatestSyncs';
 import { Button } from '@/components/ui/button';
-import { LogOut, User, BarChart3 } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { LogOut, User, BarChart3, FileText, Settings } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
   const { loading, error } = useDashboardData();
   const { user, signOut } = useAuth();
+  const { data: userDashboard } = useUserDashboard();
+  const navigate = useNavigate();
 
   const handleSignOut = async () => {
     await signOut();
@@ -63,17 +75,76 @@ const Index = () => {
         {/* Backend Health Check */}
         <BackendHealthCheck />
 
+        {/* Main KPIs Section */}
+        <div className="space-y-6">
+          {/* User KPIs */}
+          {userDashboard?.kpis && <UserKPICards kpis={userDashboard.kpis} />}
+          
+          {/* SII and ERP KPIs */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <SiiKpiCards />
+            <ErpKpiCards />
+          </div>
+        </div>
+
+        <Separator />
+
         {/* Critical Alerts */}
         <CriticalAlerts />
 
         {/* Intelligent Insights */}
+        <IntelligentInsights />
+
+        <Separator />
+
+        {/* Latest Activity Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <IntelligentInsights />
-          
-          {/* Dashboard Content */}
-          <div className="animate-fade-in">
-            <DashboardTabs />
-          </div>
+          <LatestInvoices />
+          <LatestSyncs />
+        </div>
+        
+        {/* Quick Access to New Features */}
+        <Card className="bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 border-primary/20">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              🚀 Nuevas Funcionalidades Empresariales
+            </CardTitle>
+            <CardDescription>
+              Accede a las nuevas herramientas de facturación electrónica SII y conectores ERP
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Button 
+                onClick={() => navigate('/facturacion-sii')}
+                className="h-auto p-4 flex flex-col items-center gap-2"
+                variant="outline"
+              >
+                <FileText className="w-6 h-6" />
+                <div className="text-center">
+                  <p className="font-medium">Facturación SII</p>
+                  <p className="text-xs text-muted-foreground">Facturas electrónicas Chile</p>
+                </div>
+              </Button>
+              
+              <Button 
+                onClick={() => navigate('/erp-conectores')}
+                className="h-auto p-4 flex flex-col items-center gap-2"
+                variant="outline"
+              >
+                <Settings className="w-6 h-6" />
+                <div className="text-center">
+                  <p className="font-medium">Conectores ERP</p>
+                  <p className="text-xs text-muted-foreground">Softland, Nubox integrations</p>
+                </div>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Dashboard Tabs */}
+        <div className="space-y-6">
+          <DashboardTabs />
         </div>
       </div>
 
