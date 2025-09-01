@@ -1,80 +1,47 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowLeft, Settings, BarChart3, Zap, TestTube } from 'lucide-react';
-import { ErpConnectorsList } from '@/components/erp/ErpConnectorsList';
+import { Routes, Route } from 'react-router-dom';
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/layout/AppSidebar';
 import { ErpConnectorForm } from '@/components/erp/ErpConnectorForm';
 import { ErpSyncDashboard } from '@/components/erp/ErpSyncDashboard';
 import { ErpDemo } from '@/components/erp/ErpDemo';
 
-export default function ErpConectores() {
-  const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('dashboard');
-
+// Simplified single ERP connector component
+function ErpConnectorConfig() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted p-4">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-4">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => navigate('/')}
-              className="flex items-center gap-2"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Volver al Dashboard
-            </Button>
-            <div>
-              <h1 className="text-3xl font-bold text-foreground flex items-center gap-3">
-                ⚙️ Conectores ERP
-              </h1>
-              <p className="text-muted-foreground mt-1">
-                Integración completa con sistemas ERP Softland y Nubox
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Main Content */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-6">
-            <TabsTrigger value="dashboard" className="flex items-center gap-2">
-              <BarChart3 className="w-4 h-4" /> Dashboard
-            </TabsTrigger>
-            <TabsTrigger value="connectors" className="flex items-center gap-2">
-              <Settings className="w-4 h-4" /> Conectores
-            </TabsTrigger>
-            <TabsTrigger value="sync" className="flex items-center gap-2">
-              <Zap className="w-4 h-4" /> Sincronización
-            </TabsTrigger>
-            <TabsTrigger value="demo" className="flex items-center gap-2">
-              <TestTube className="w-4 h-4" /> Demo
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="dashboard" className="mt-0">
-            <ErpSyncDashboard />
-          </TabsContent>
-
-          <TabsContent value="connectors" className="mt-0">
-            <div className="space-y-6">
-              <ErpConnectorsList />
-              <ErpConnectorForm />
-            </div>
-          </TabsContent>
-
-          <TabsContent value="sync" className="mt-0">
-            <ErpSyncDashboard showSyncControls />
-          </TabsContent>
-
-          <TabsContent value="demo" className="mt-0">
-            <ErpDemo />
-          </TabsContent>
-        </Tabs>
+    <div className="space-y-6">
+      <div className="text-sm text-muted-foreground mb-4">
+        Configura tu conector ERP principal. Una empresa solo puede tener un ERP activo.
       </div>
+      <ErpConnectorForm />
     </div>
+  );
+}
+
+export default function ErpConectores() {
+  return (
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full bg-gradient-to-br from-background to-muted">
+        <AppSidebar currentSection="erp" />
+        
+        <main className="flex-1">
+          <header className="h-16 flex items-center border-b bg-background/80 backdrop-blur-sm px-6">
+            <SidebarTrigger className="mr-4" />
+            <div>
+              <h1 className="text-xl font-semibold">Conectores ERP</h1>
+              <p className="text-sm text-muted-foreground">Integración con sistemas ERP empresariales</p>
+            </div>
+          </header>
+
+          <div className="p-6">
+            <Routes>
+              <Route path="/" element={<ErpSyncDashboard />} />
+              <Route path="/config" element={<ErpConnectorConfig />} />
+              <Route path="/sync" element={<ErpSyncDashboard showSyncControls />} />
+              <Route path="/demo" element={<ErpDemo />} />
+            </Routes>
+          </div>
+        </main>
+      </div>
+    </SidebarProvider>
   );
 }

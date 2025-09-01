@@ -107,14 +107,14 @@ const Index = () => {
         <Card className="bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 border-primary/20">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              🚀 Nuevas Funcionalidades Empresariales
+              🚀 Herramientas Empresariales
             </CardTitle>
             <CardDescription>
-              Accede a las nuevas herramientas de facturación electrónica SII y conectores ERP
+              Accede a facturación electrónica SII y tu conector ERP principal
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <Button 
                 onClick={() => navigate('/facturacion-sii')}
                 className="h-auto p-4 flex flex-col items-center gap-2"
@@ -123,7 +123,7 @@ const Index = () => {
                 <FileText className="w-6 h-6" />
                 <div className="text-center">
                   <p className="font-medium">Facturación SII</p>
-                  <p className="text-xs text-muted-foreground">Facturas electrónicas Chile</p>
+                  <p className="text-xs text-muted-foreground">Facturas electrónicas</p>
                 </div>
               </Button>
               
@@ -134,8 +134,20 @@ const Index = () => {
               >
                 <Settings className="w-6 h-6" />
                 <div className="text-center">
-                  <p className="font-medium">Conectores ERP</p>
-                  <p className="text-xs text-muted-foreground">Softland, Nubox integrations</p>
+                  <p className="font-medium">ERP Principal</p>
+                  <p className="text-xs text-muted-foreground">Tu conector configurado</p>
+                </div>
+              </Button>
+
+              <Button 
+                onClick={() => navigate('/reconciliation')}
+                className="h-auto p-4 flex flex-col items-center gap-2"
+                variant="outline"
+              >
+                <BarChart3 className="w-6 h-6" />
+                <div className="text-center">
+                  <p className="font-medium">Conciliación IA</p>
+                  <p className="text-xs text-muted-foreground">Análisis inteligente</p>
                 </div>
               </Button>
             </div>

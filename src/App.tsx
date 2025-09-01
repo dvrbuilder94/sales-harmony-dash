@@ -40,16 +40,16 @@ const App = () => (
                   <Reconciliation />
                 </ProtectedRoute>
               } />
-              <Route path="/facturacion-sii" element={
-                <ProtectedRoute>
-                  <FacturacionSii />
-                </ProtectedRoute>
-              } />
-              <Route path="/erp-conectores" element={
-                <ProtectedRoute>
-                  <ErpConectores />
-                </ProtectedRoute>
-              } />
+          <Route path="/facturacion-sii/*" element={
+            <ProtectedRoute>
+              <FacturacionSii />
+            </ProtectedRoute>
+          } />
+          <Route path="/erp-conectores/*" element={
+            <ProtectedRoute>
+              <ErpConectores />
+            </ProtectedRoute>
+          } />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
