@@ -12,6 +12,8 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import Reconciliation from "./pages/Reconciliation";
+import FacturacionSii from "./pages/FacturacionSii";
+import ErpConectores from "./pages/ErpConectores";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +38,16 @@ const App = () => (
               <Route path="/reconciliation" element={
                 <ProtectedRoute>
                   <Reconciliation />
+                </ProtectedRoute>
+              } />
+              <Route path="/facturacion-sii" element={
+                <ProtectedRoute>
+                  <FacturacionSii />
+                </ProtectedRoute>
+              } />
+              <Route path="/erp-conectores" element={
+                <ProtectedRoute>
+                  <ErpConectores />
                 </ProtectedRoute>
               } />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
