@@ -11,12 +11,11 @@ import { OAuthCallback } from "@/components/OAuthCallback";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
-import Reconciliation from "./pages/Reconciliation";
-import FacturacionSii from "./pages/FacturacionSii";
-import Ventas from "./pages/Ventas";
-import Canales from "./pages/Canales";
-import Reportes from "./pages/Reportes";
-import Configuracion from "./pages/Configuracion";
+import Ventas from './pages/Ventas'
+import Transacciones from './pages/Transacciones'
+import FacturacionSii from './pages/FacturacionSii'
+import Reportes from './pages/Reportes'
+import Configuracion from './pages/Configuracion'
 
 const queryClient = new QueryClient();
 
@@ -43,19 +42,14 @@ const App = () => (
                   <Ventas />
                 </ProtectedRoute>
               } />
+              <Route path="/transacciones" element={
+                <ProtectedRoute>
+                  <Transacciones />
+                </ProtectedRoute>
+              } />
               <Route path="/facturacion/*" element={
                 <ProtectedRoute>
                   <FacturacionSii />
-                </ProtectedRoute>
-              } />
-              <Route path="/reconciliacion" element={
-                <ProtectedRoute>
-                  <Reconciliation />
-                </ProtectedRoute>
-              } />
-              <Route path="/canales" element={
-                <ProtectedRoute>
-                  <Canales />
                 </ProtectedRoute>
               } />
               <Route path="/reportes" element={

@@ -38,15 +38,14 @@ export function AppSidebar() {
     return currentPath.startsWith(path)
   }
 
-  // Clean navigation without emojis for professional look
+  // Navigation structure as per comprehensive specifications
   const mainItems = [
-    { title: "Dashboard", url: "/", icon: Home, description: "Resumen ejecutivo" },
-    { title: "Ventas", url: "/ventas", icon: BarChart3, description: "Gestión de transacciones" },
-    { title: "Facturación", url: "/facturacion", icon: FileText, description: "SII Chile" },
-    { title: "Reconciliación", url: "/reconciliacion", icon: CheckCircle, description: "Conciliación multi-canal" },
-    { title: "Canales", url: "/canales", icon: Zap, description: "Marketplaces" },
-    { title: "Reportes", url: "/reportes", icon: Receipt, description: "Analytics y métricas" },
-    { title: "Configuración", url: "/config", icon: Settings, description: "Configuración general" },
+    { title: "Centro de Conciliación", url: "/", icon: Home, description: "Panel principal con alertas críticas" },
+    { title: "Ventas", url: "/ventas", icon: BarChart3, description: "Análisis detallado de productos" },
+    { title: "Transacciones", url: "/transacciones", icon: Receipt, description: "Vista detallada de transacciones" },
+    { title: "Facturación SII", url: "/facturacion", icon: FileText, description: "Facturación electrónica Chile" },
+    { title: "Reportes", url: "/reportes", icon: CheckCircle, description: "Reportes descargables" },
+    { title: "Configuración", url: "/config", icon: Settings, description: "Empresa, usuarios, ERP, API keys" },
   ]
 
   const handleNavClick = () => {
