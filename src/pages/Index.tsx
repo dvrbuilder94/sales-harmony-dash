@@ -98,13 +98,6 @@ const Index = () => {
               </div>
               <Button size="sm" variant="outline">Revisar</Button>
             </div>
-            <div className="flex items-center justify-between p-3 bg-success/5 rounded-lg">
-              <div>
-                <div className="font-medium">Acelerar Pago</div>
-                <div className="text-sm text-muted-foreground">$890K viernes vs lunes - Tiempo estimado: 5 min</div>
-              </div>
-              <Button size="sm" variant="outline">Acelerar</Button>
-            </div>
           </CardContent>
         </Card>
 
