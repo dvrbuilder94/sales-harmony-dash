@@ -15,7 +15,8 @@ import Ventas from './pages/Ventas'
 import Transacciones from './pages/Transacciones'
 import FacturacionSii from './pages/FacturacionSii'
 import Reportes from './pages/Reportes'
-import Configuracion from './pages/Configuracion'
+import Pricing from './pages/Pricing'
+import Developers from './pages/Developers'
 
 const queryClient = new QueryClient();
 
@@ -31,7 +32,8 @@ const App = () => (
             <Routes>
               <Route path="/auth" element={<Auth />} />
               <Route path="/auth/callback" element={<OAuthCallback />} />
-              <Route path="/auth/mercadolibre/callback" element={<OAuthCallback />} />
+              <Route path="/pricing" element={<Pricing />} />
+              <Route path="/developers" element={<Developers />} />
               <Route path="/" element={
                 <ProtectedRoute>
                   <Index />

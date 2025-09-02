@@ -17,116 +17,147 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* SaaS Premium Colors - Gradiente azul-púrpura */
+    --primary: 235 69% 61%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 245 75% 75%;
+    
+    /* Professional Secondary */
+    --secondary: 235 40% 96%;
+    --secondary-foreground: 235 69% 25%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 235 20% 96%;
+    --muted-foreground: 235 16% 47%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 245 75% 75%;
+    --accent-foreground: 235 69% 25%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 235 31% 91%;
+    --input: 235 31% 91%;
+    --ring: 235 69% 61%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
+    /* Enhanced Sidebar for SaaS */
+    --sidebar-background: 235 69% 61%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 235 69% 61%;
+    --sidebar-accent: 235 75% 70%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 235 75% 70%;
+    --sidebar-ring: 245 75% 75%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-
-    /* AI System Colors */
-    --ai-primary: 217 91% 60%;
-    --ai-primary-foreground: 0 0% 100%;
-    --ai-secondary: 217 32% 85%;
-    --ai-secondary-foreground: 217 91% 60%;
-    
-    /* Success Colors */
-    --success: 142 76% 36%;
+    /* SaaS Success - Gradiente verde */
+    --success: 158 64% 52%;
     --success-foreground: 0 0% 100%;
+    --success-glow: 158 75% 65%;
     
-    /* Warning Colors */
+    /* SaaS Warning - Gradiente rosa-rojo */
     --warning: 38 92% 50%;
     --warning-foreground: 0 0% 100%;
+    --warning-glow: 350 89% 60%;
+    
+    /* SaaS Info - Gradiente azul claro */
+    --info: 199 89% 48%;
+    --info-foreground: 0 0% 100%;
+    --info-glow: 191 97% 77%;
     
     /* Critical Colors */
     --critical: 0 84% 60%;
     --critical-foreground: 0 0% 100%;
+
+    /* Premium Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(235 69% 61%), hsl(245 75% 75%));
+    --gradient-success: linear-gradient(135deg, hsl(158 64% 52%), hsl(158 75% 65%));
+    --gradient-warning: linear-gradient(135deg, hsl(350 89% 60%), hsl(38 92% 50%));
+    --gradient-info: linear-gradient(135deg, hsl(199 89% 48%), hsl(191 97% 77%));
+    --gradient-subtle: linear-gradient(180deg, hsl(235 20% 98%), hsl(235 20% 96%));
+
+    /* Premium Shadows */
+    --shadow-elegant: 0 10px 30px -10px hsl(235 69% 61% / 0.3);
+    --shadow-glow: 0 0 40px hsl(245 75% 75% / 0.4);
+    --shadow-card: 0 4px 12px hsl(235 20% 80% / 0.15);
+    
+    /* Smooth Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Dark Theme - SaaS Professional */
+    --background: 230 35% 7%;
+    --foreground: 0 0% 98%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 230 35% 9%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 230 35% 9%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    /* Dark SaaS Premium Colors */
+    --primary: 235 69% 61%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 245 75% 75%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 230 35% 15%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 230 25% 15%;
+    --muted-foreground: 230 10% 65%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 230 35% 15%;
+    --accent-foreground: 0 0% 98%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --border: 230 25% 20%;
+    --input: 230 25% 20%;
+    --ring: 235 69% 61%;
+
+    /* Dark Sidebar Enhanced */
+    --sidebar-background: 230 40% 8%;
+    --sidebar-foreground: 0 0% 90%;
+    --sidebar-primary: 235 69% 61%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 230 35% 15%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 230 25% 20%;
+    --sidebar-ring: 235 69% 61%;
 
-    /* AI System Colors */
-    --ai-primary: 217 91% 60%;
-    --ai-primary-foreground: 0 0% 100%;
-    --ai-secondary: 217 32% 17%;
-    --ai-secondary-foreground: 217 91% 60%;
-    
-    /* Success Colors */
-    --success: 142 76% 36%;
+    /* Dark Success */
+    --success: 158 64% 52%;
     --success-foreground: 0 0% 100%;
+    --success-glow: 158 75% 65%;
     
-    /* Warning Colors */
+    /* Dark Warning */
     --warning: 38 92% 50%;
     --warning-foreground: 0 0% 100%;
+    --warning-glow: 350 89% 60%;
     
-    /* Critical Colors */
+    /* Dark Info */
+    --info: 199 89% 48%;
+    --info-foreground: 0 0% 100%;
+    --info-glow: 191 97% 77%;
+    
+    /* Dark Critical */
     --critical: 0 84% 60%;
     --critical-foreground: 0 0% 100%;
+
+    /* Dark Premium Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(235 69% 61%), hsl(245 75% 75%));
+    --gradient-success: linear-gradient(135deg, hsl(158 64% 52%), hsl(158 75% 65%));
+    --gradient-warning: linear-gradient(135deg, hsl(350 89% 60%), hsl(38 92% 50%));
+    --gradient-info: linear-gradient(135deg, hsl(199 89% 48%), hsl(191 97% 77%));
+    --gradient-subtle: linear-gradient(180deg, hsl(230 35% 10%), hsl(230 35% 8%));
+
+    /* Dark Premium Shadows */
+    --shadow-elegant: 0 10px 30px -10px hsl(0 0% 0% / 0.5);
+    --shadow-glow: 0 0 40px hsl(235 69% 61% / 0.3);
+    --shadow-card: 0 4px 12px hsl(0 0% 0% / 0.25);
   }
 }
 
