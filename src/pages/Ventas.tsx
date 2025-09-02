@@ -18,9 +18,7 @@ import {
   DollarSign, 
   Package,
   Filter,
-  Download,
-  Eye,
-  FileText
+  Download
 } from 'lucide-react'
 
 interface Venta {
@@ -181,18 +179,17 @@ const Ventas = () => {
       },
     },
     {
-      id: 'actions',
-      header: 'Acciones',
-      cell: ({ row }) => (
-        <div className="flex gap-2">
-          <Button variant="ghost" size="sm">
-            <Eye className="h-4 w-4" />
-          </Button>
-          <Button variant="ghost" size="sm">
-            <FileText className="h-4 w-4" />
-          </Button>
-        </div>
-      ),
+      accessorKey: 'created_at',
+      header: 'Estado',
+      cell: ({ row }) => {
+        const venta = row.original
+        const status = venta.monto_neto > 0 ? 'success' : 'pending'
+        return (
+          <StatusBadge status={status}>
+            {status === 'success' ? 'Completada' : 'Pendiente'}
+          </StatusBadge>
+        )
+      },
     },
   ]
 
@@ -220,16 +217,37 @@ const Ventas = () => {
                     Administra y analiza todas tus transacciones de venta
                   </p>
                 </div>
-                <div className="flex gap-2">
-                  <Button variant="outline" className="gap-2">
-                    <Filter className="h-4 w-4" />
-                    Filtros Avanzados
-                  </Button>
-                  <Button className="gap-2">
-                    <Download className="h-4 w-4" />
-                    Exportar
-                  </Button>
-                </div>
+                 <div className="flex gap-2">
+                   <Button 
+                     variant="outline" 
+                     className="gap-2"
+                     onClick={() => {
+                       // This could trigger advanced filters modal
+                       console.log('Advanced filters clicked')
+                     }}
+                   >
+                     <Filter className="h-4 w-4" />
+                     Filtros Avanzados
+                   </Button>
+                   <Button 
+                     className="gap-2"
+                     onClick={() => {
+                       // Export functionality
+                       const csvData = ventas.map(v => ({
+                         order_id: v.order_id,
+                         fecha: v.fecha,
+                         canal: v.channel?.name || 'N/A',
+                         monto_bruto: v.monto_bruto,
+                         comisiones: v.comisiones,
+                         monto_neto: v.monto_neto
+                       }))
+                       console.log('Exporting:', csvData)
+                     }}
+                   >
+                     <Download className="h-4 w-4" />
+                     Exportar
+                   </Button>
+                 </div>
               </div>
 
               {/* KPIs */}

@@ -193,27 +193,31 @@ const Configuracion = () => {
                               <div className="text-sm text-muted-foreground">{user.email}</div>
                             </div>
                           </div>
-                          <div className="flex items-center gap-3">
-                            <Badge variant="outline">{user.role}</Badge>
-                            <Badge 
-                              variant={user.status === 'active' ? 'default' : 'secondary'}
-                              className={user.status === 'active' 
-                                ? 'bg-green-100 text-green-800 border-green-200' 
-                                : 'bg-yellow-100 text-yellow-800 border-yellow-200'
-                              }
-                            >
-                              {user.status === 'active' ? 'Activo' : 'Pendiente'}
-                            </Badge>
-                            <Button variant="outline" size="sm">
-                              Editar
-                            </Button>
-                          </div>
+                     <div className="flex items-center gap-3">
+                       <Badge variant="outline">{user.role}</Badge>
+                       <Badge 
+                         variant={user.status === 'active' ? 'default' : 'secondary'}
+                         className={user.status === 'active' 
+                           ? 'bg-green-100 text-green-800 border-green-200' 
+                           : 'bg-yellow-100 text-yellow-800 border-yellow-200'
+                         }
+                       >
+                         {user.status === 'active' ? 'Activo' : 'Pendiente'}
+                       </Badge>
+                     </div>
                         </div>
                       ))}
                     </div>
-                    <div className="mt-4">
-                      <Button>Invitar Usuario</Button>
-                    </div>
+                     <div className="mt-4">
+                       <Button
+                         onClick={() => {
+                           // Add user invitation functionality
+                           console.log('Inviting new user...')
+                         }}
+                       >
+                         Invitar Usuario
+                       </Button>
+                     </div>
                   </CardContent>
                 </Card>
               </TabsContent>
@@ -303,17 +307,30 @@ const Configuracion = () => {
                           </div>
                         </div>
 
-                        <div className="flex gap-4">
-                          <Button variant="outline">
-                            Configurar Mapeo
-                          </Button>
-                          <Button variant="outline">
-                            Ver Logs
-                          </Button>
-                          <Button variant="destructive" onClick={handleDisconnectErp}>
-                            Desconectar ERP
-                          </Button>
-                        </div>
+                         <div className="flex gap-4">
+                           <Button 
+                             variant="outline"
+                             onClick={() => {
+                               console.log('Configuring account mapping...')
+                             }}
+                           >
+                             Configurar Mapeo
+                           </Button>
+                           <Button 
+                             variant="outline"
+                             onClick={() => {
+                               console.log('Showing sync logs...')
+                             }}
+                           >
+                             Ver Logs
+                           </Button>
+                           <Button 
+                             variant="destructive" 
+                             onClick={handleDisconnectErp}
+                           >
+                             Desconectar ERP
+                           </Button>
+                         </div>
                       </CardContent>
                     </Card>
                   </div>
