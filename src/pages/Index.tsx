@@ -10,7 +10,7 @@ import { useUserDashboard } from "@/hooks/useUserDashboard";
 import { useRoleSelector } from "@/hooks/useRoleSelector";
 
 const Index = () => {
-  const { data: dashboardData, loading } = useUserDashboard();
+  const { data: dashboardData, isLoading } = useUserDashboard();
   const { currentRole, isSellerView, isAccountantView } = useRoleSelector();
 
   const headerActions = (
@@ -28,8 +28,14 @@ const Index = () => {
     </div>
   );
 
-  if (loading) {
-    return <AppLayout title="SalesHarmony" description="Conciliación Inteligente con IA" actions={headerActions}>{/* Loading handled globally */}</AppLayout>;
+  if (isLoading) {
+    return (
+      <AppLayout title="SalesHarmony" description="Conciliación Inteligente con IA" actions={headerActions}>
+        <div className="space-y-6">
+          {/* Loading handled globally */}
+        </div>
+      </AppLayout>
+    );
   }
 
   return (

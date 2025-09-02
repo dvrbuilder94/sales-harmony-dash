@@ -17,6 +17,7 @@ import FacturacionSii from './pages/FacturacionSii'
 import Reportes from './pages/Reportes'
 import Pricing from './pages/Pricing'
 import Developers from './pages/Developers'
+import Configuracion from './pages/Configuracion'
 
 const queryClient = new QueryClient();
 
