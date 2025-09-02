@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
-import { AppSidebar } from '@/components/layout/AppSidebar'
+import { AppLayout } from '@/components/layout/AppLayout'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -114,27 +113,26 @@ const Reportes = () => {
     }
   }
 
+  const headerActions = (
+    <>
+      <Button variant="outline" size="sm" className="gap-2">
+        <Filter className="h-4 w-4" />
+        <span className="hidden sm:inline">Filtros</span>
+      </Button>
+      <Button size="sm" className="gap-2">
+        <Download className="h-4 w-4" />
+        <span className="hidden sm:inline">Nuevo</span>
+      </Button>
+    </>
+  )
+
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold">Centro de Reportes</h1>
-          <p className="text-muted-foreground">
-            Genera y administra reportes financieros y de performance
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="outline" className="gap-2">
-            <Filter className="h-4 w-4" />
-            Filtros
-          </Button>
-          <Button className="gap-2">
-            <Download className="h-4 w-4" />
-            Nuevo Reporte
-          </Button>
-        </div>
-      </div>
+    <AppLayout 
+      title="Centro de Reportes" 
+      description="Genera y administra reportes financieros y de performance"
+      actions={headerActions}
+    >
+      <div className="space-y-6">
 
       {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -421,7 +419,8 @@ const Reportes = () => {
           </div>
         </TabsContent>
       </Tabs>
-    </div>
+      </div>
+    </AppLayout>
   )
 }
 
